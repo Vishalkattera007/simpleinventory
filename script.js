@@ -1,9 +1,9 @@
 $(document).ready(function () {
   $("#loadButton").click(function () {
-    // var date = $("#date").val();
-    // var productCode = $("#productCode").val();
-    // var stage = $("#stage").val();
-    // var block = $("#block").val();
+    var date = $("#date").val();
+    var productCode = $("#productCode").val();
+    var stage = $("#stage").val();
+    var block = $("#block").val();
 
     if (date && productCode && stage && block) {
       $(".formsContainer").fadeIn();
@@ -14,16 +14,28 @@ $(document).ready(function () {
         text: "Please select all required fields before proceeding.",
       });
     }
+  });
 
-    let tableBodyOfForm2 = document.getElementById("form2Body");
-    tableBodyOfForm2.innerHTML = "";
+  $("#productCode").click(function () {
+    var productId = $(this).val();
+    $.ajax({
+      url: "admin/getdata.php", // Path to the PHP script
+      type: "POST",
+      data: { productId: productId },
+      success: function (response) {
+        console.log(response);
+        var rowCount = parseInt(response.rowCount);
+        console.log(rowCount);
 
-    for (let i = 1; i <= 20; i++) {
-      let row = `<tr>
+        let tableBodyOfForm2 = document.getElementById("form2Body");
+        tableBodyOfForm2.innerHTML = "";
+
+        for (let i = 1; i <= rowCount; i++) {
+          let row = `<tr>
                     <td>${i}</td>
-                    <td><input class="form-control" name="Code" type="text"></td>
-                    <td><input class="form-control" name="Material" type="text"></td>
-                    <td><input class="form-control" name="UOM" type="text"></td>
+                    <td><input class="form-control" name="Code" id="scode" type="text" readonly></td>
+                    <td><input class="form-control" name="Material" id="materialName" type="text" readonly></td>
+                    <td><input class="form-control" name="UOM" id="uom" type="text" readonly></td>
                     <td><input class="form-control" name="Spgr" type="number"></td>
                     <td><input class="form-control" name="OpBalance" type="number" oninput="calculateRow(this)"></td>
                     <td><input class="form-control" name="Receipts" type="number" oninput="calculateRow(this)"></td>
@@ -39,9 +51,56 @@ $(document).ready(function () {
                     <td><input class="form-control" name="Std_inputs" type="number"></td>
                     <td><input class="form-control" name="Per_batch" type="number"></td>
                 </tr>`;
-      tableBodyOfForm2.innerHTML += row;
-    }
+          tableBodyOfForm2.innerHTML += row;
+        }
+
+        $("#form2Body tr").each(function () {
+          $(this).find("input[name='Code']").val(response.code);
+          $(this).find("input[name='Material']").val(response.materialName);
+          $(this).find("input[name='UOM']").val(response.uom);
+        });
+
+        $("#stage").empty();
+        if (response.stages.length > 0) {
+          response.stages.forEach((stage) => {
+            $("#stage").append(
+              `<option value="${stage.id}">${stage.name}</option>`
+            );
+          });
+        } else {
+          $("#stage").append("<option disabled>No Stages Found</option>");
+        }
+
+        $("#block").empty();
+        if (response.blocks.length > 0) {
+          response.blocks.forEach((block) => {
+            $("#block").append(
+              `<option value="${block.id}">${block.name}</option>`
+            );
+          });
+        } else {
+          $("#block").append("<option disabled>No Blocks Found</option>");
+        }
+
+        $("#units").empty();
+        if (response.units.length > 0) {
+          response.units.forEach((unit) => {
+            $("#units").append(
+              `<option value="${unit.id}">${unit.name}</option>`
+            );
+          });
+        } else {
+          $("#units").append("<option disabled>No Units Found</option>");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.log("AJAX Error: " + error);
+        console.log("Error: " + error);
+    console.log("Response Text: " + xhr.responseText);
+      },
+    });
   });
+
   $("#saveData").click(function () {
     let form1Data = {
       date: $("#date").val(),
@@ -83,13 +142,14 @@ $(document).ready(function () {
         stdInputs: $(this).find("td:eq(16) input").val(),
         perBatchConsumption: $(this).find("td:eq(17) input").val(),
       };
-      inputs.each(function () {
-        if ($(this).val().trim() !== "") {
-          isEmpty = false;
+      for (let key in row) {
+        if (row[key] !== "" && row[key] !== "0") {
+          isFilled = true;
+          break;
         }
-      });
+      }
 
-      if (!isEmpty) {
+      if (isFilled) {
         form2Data.push(row);
       }
     });

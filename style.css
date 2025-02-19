@@ -35,3 +35,12 @@ thead th{
     filter: drop-shadow(2px 4px 6px rgba(38, 38, 38, 0.252));
 
 }
+
+.table {
+    width: 100%;
+    white-space: nowrap; /* Prevents content from wrapping */
+}
+
+.table-responsive {
+    overflow-x: auto;
+}

@@ -783,21 +783,21 @@ function getstages($con, $productId)
 
     if ($query_result) {
         $row = mysqli_fetch_assoc($query_result);
-        if (!$row || empty($row['stageId'])) {
+        if (! $row || empty($row['stageId'])) {
             return [];
         }
 
-        $stageIds = explode(',', $row['stageId']);
-        $stageIds = array_map('trim', $stageIds);
+        $stageIds       = explode(',', $row['stageId']);
+        $stageIds       = array_map('trim', $stageIds);
         $stageIdsString = implode("','", $stageIds);
 
         $stage_query = mysqli_query($con, "SELECT id, name FROM stages WHERE id IN ('$stageIdsString')");
-        $stages = [];
+        $stages      = [];
 
-        while ($stage_row = mysqli_fetch_assoc($stage_query)) { 
+        while ($stage_row = mysqli_fetch_assoc($stage_query)) {
             $stages[] = [
                 'id'   => $stage_row['id'],
-                'name' => $stage_row['name']
+                'name' => $stage_row['name'],
             ];
         }
 
@@ -807,29 +807,28 @@ function getstages($con, $productId)
     return [];
 }
 
-
 function getblocks($con, $productId)
 {
     $query_result = mysqli_query($con, "SELECT blockId FROM productdata WHERE id = $productId");
 
     if ($query_result) {
         $row = mysqli_fetch_assoc($query_result);
-        if (!$row || empty($row['blockId'])) {
+        if (! $row || empty($row['blockId'])) {
             return [];
         }
 
-        $blockIds = explode(',', $row['blockId']); // Convert "1,2" to array ["1", "2"]
-        $blockIds = array_map('trim', $blockIds); // Trim spaces
-        $blockIdsString = implode("','", $blockIds); // Convert to SQL-friendly format
+        $blockIds       = explode(',', $row['blockId']); // Convert "1,2" to array ["1", "2"]
+        $blockIds       = array_map('trim', $blockIds);  // Trim spaces
+        $blockIdsString = implode("','", $blockIds);     // Convert to SQL-friendly format
 
         // Fetch block names for all block IDs
         $block_query = mysqli_query($con, "SELECT id, name FROM blocks WHERE id IN ('$blockIdsString')");
-        $blocks = [];
+        $blocks      = [];
 
-        while ($block_row = mysqli_fetch_assoc($block_query)) { 
+        while ($block_row = mysqli_fetch_assoc($block_query)) {
             $blocks[] = [
                 'id'   => $block_row['id'],
-                'name' => $block_row['name']
+                'name' => $block_row['name'],
             ];
         }
 
@@ -839,28 +838,27 @@ function getblocks($con, $productId)
     return [];
 }
 
-
 function getunits($con, $productId)
 {
     $query_result = mysqli_query($con, "SELECT unitId FROM productdata WHERE id = $productId");
 
     if ($query_result) {
         $row = mysqli_fetch_assoc($query_result);
-        if (!$row || empty($row['unitId'])) {
+        if (! $row || empty($row['unitId'])) {
             return [];
         }
 
-        $unitIds = explode(',', $row['unitId']);
-        $unitIds = array_map('trim', $unitIds);
+        $unitIds       = explode(',', $row['unitId']);
+        $unitIds       = array_map('trim', $unitIds);
         $unitIdsString = implode("','", $unitIds);
 
         $unit_query = mysqli_query($con, "SELECT id, name FROM units WHERE id IN ('$unitIdsString')");
-        $units = [];
+        $units      = [];
 
-        while ($unit_row = mysqli_fetch_assoc($unit_query)) { 
+        while ($unit_row = mysqli_fetch_assoc($unit_query)) {
             $units[] = [
                 'id'   => $unit_row['id'],
-                'name' => $unit_row['name']
+                'name' => $unit_row['name'],
             ];
         }
 
@@ -870,3 +868,51 @@ function getunits($con, $productId)
     return [];
 }
 
+//form2 liust
+function form2List($con)
+{
+    $sql       = "SELECT * FROM `form2_data` ORDER BY id DESC";
+    $sqlresult = mysqli_query($con, $sql);
+
+    if (mysqli_num_rows($sqlresult) > 0) {
+        $sno = 1;
+        while ($row = mysqli_fetch_assoc($sqlresult)) {
+            $form1Id    = $row['form1_id'];
+            $sql2       = "SELECT * FROM `form1_data` where id = $form1Id";
+            $sqlresult2 = mysqli_query($con, $sql2);
+            $row2 = mysqli_fetch_assoc($sqlresult2);
+            $productCode = $row2['product_code'];
+            $sql3       = "SELECT * FROM `productdata` where id = $productCode";
+            $sqlresult3 = mysqli_query($con, $sql3);
+            $row3 = mysqli_fetch_assoc($sqlresult3);
+            $productName = $row3['productCode'];
+
+
+            echo "<tr>";
+            echo "<td>" . $sno . "</td>";
+            echo "<td>" . htmlspecialchars($productName) . "</td>";
+            echo "<td>" . htmlspecialchars($row['code']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['material_name']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['uom']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['sp_gr']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['opening_balance']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['receipts']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['source']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['total']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['transfers']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['physical_stock']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['wip']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['closing_balance']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['net_consumption']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['actual_cc']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['std_cc']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['std_inputs']) . "</td>";
+            echo "<td>" . htmlspecialchars($row['per_batch_consumption']) . "</td>";
+
+            echo "</tr>";
+            $sno++;
+        }
+    } else {
+        echo "<tr><td colspan='3' class='text-center'>No Data found</td></tr>";
+    }
+}

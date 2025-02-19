@@ -16,7 +16,7 @@ include 'admin/functions.php';
 
 <body>
     <div class="projectName m-3">
-        <h1 class="text-center">Production Report</h1>
+        <h1 class="text-center">Production Report<td id="code"></td></h1>
 
     </div>
 
@@ -28,7 +28,7 @@ include 'admin/functions.php';
                     <input type="date" id="date" name="date" class="form-control mt-1 w-100" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
                 <div class="lg-12 col-sm-2 p-3">
-                    <label class="label" for="pc">Product Code</label>
+                    <label class="label" for="pc">ProductCode</label>
                     <select class="form-select mt-1" id="productCode" name="productCode" required>
 
                         <?php productsOnscreen($con); ?>
@@ -97,24 +97,24 @@ include 'admin/functions.php';
                 <table class="table form_2">
                     <thead>
                         <tr>
-                            <th class="col">S.NO</th>
-                            <th class="col">Code</th>
-                            <th class="col">Material (Name)</th>
-                            <th class="col">UOM</th>
+                            <th class="col">#</th>
+                            <th class="col">Pr Code</th>
+                            <th class="col">Mat.(Name)</th>
+                            <th class="col">UOM Val</th>
                             <th class="col">Sp.Gr</th>
-                            <th class="col">Op.. Balance</th>
+                            <th class="col">Op.. Bal</th>
                             <th class="col">Receipts</th>
                             <th class="col">Source</th>
                             <th class="col">Total</th>
                             <th class="col">Transfers</th>
-                            <th class="col">Physical Stock</th>
+                            <th class="col">Phy.Stk</th>
                             <th class="col">WIP</th>
-                            <th class="col">Closing Balance</th>
+                            <th class="col">Cls.Bal</th>
                             <th class="col">Net Consumption</th>
                             <th class="col">Actual CC</th>
                             <th class="col">STD CC</th>
                             <th class="col">Std Inputs</th>
-                            <th class="col">Per Batch Consumption</th>
+                            <th class="col">P.B.C</th>
                         </tr>
                     </thead>
                     <tbody id="form2Body"></tbody>
@@ -129,52 +129,7 @@ include 'admin/functions.php';
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#productCode').change(function() {
-                var productId = $(this).val();
-                $.ajax({
-            url: 'admin/getdata.php', // Path to the PHP script
-            type: 'POST',
-            data: { productId: productId },
-            success: function(response) {
-                console.log(response); // Handle response (display or process it)
-                $('#stage').empty();
-                if (response.stages.length > 0) {
-                    response.stages.forEach(stage => {
-                        $('#stage').append(`<option value="${stage.id}">${stage.name}</option>`);
-                    });
-                } else {
-                    $('#stage').append('<option disabled>No Stages Found</option>');
-                }
 
-                $('#block').empty();
-                if (response.blocks.length > 0) {
-                    response.blocks.forEach(block => {
-                        $('#block').append(`<option value="${block.id}">${block.name}</option>`);
-                    });
-                } else {
-                    $('#block').append('<option disabled>No Blocks Found</option>');
-                }
-
-                $('#units').empty();
-                if (response.units.length > 0) {
-                    response.units.forEach(unit => {
-                        $('#units').append(`<option value="${unit.id}">${unit.name}</option>`);
-                    });
-                } else {
-                    $('#units').append('<option disabled>No Units Found</option>');
-                } 
-
-            },
-            error: function(xhr, status, error) {
-                console.log("AJAX Error: " + error);
-            }
-        });
-
-            });
-        });
-    </script>
 </body>
 
 </html>

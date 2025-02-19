@@ -6,10 +6,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $form1 = json_decode($_POST["form1"], true);
     $form2 = json_decode($_POST["form2"], true);
 
-    $date              = mysqli_real_escape_string($mysqlConnect, $form1['date']);
-    $product_code      = mysqli_real_escape_string($mysqlConnect, $form1['productCode']);
-    $stage             = mysqli_real_escape_string($mysqlConnect, $form1['stage']);
-    $block             = mysqli_real_escape_string($mysqlConnect, $form1['block']);
+    $date              = mysqli_real_escape_string($con, $form1['date']);
+    $product_code      = mysqli_real_escape_string($con, $form1['productCode']);
+    $stage             = mysqli_real_escape_string($con, $form1['stage']);
+    $block             = mysqli_real_escape_string($con, $form1['block']);
     $completed_batches = (int) $form1['completedBatches'];
     $wip_batches       = (int) $form1['wipBatches'];
     $opening_stock     = (int) $form1['openingStock'];
@@ -26,22 +26,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES
             ('$date', '$product_code', '$stage', '$block', '$completed_batches', '$wip_batches', '$opening_stock', '$closing_stock', '$total_production', '$total_dispatches', '$std_yield', '$target_yield', '$actual_yield')";
 
-    if (mysqli_query($mysqlConnect, $sql)) {
-        $form1Idhere = mysqli_insert_id($mysqlConnect);
+    if (mysqli_query($con, $sql)) {
+        $form1Idhere = mysqli_insert_id($con);
     } else {
-        echo "Error: " . mysqli_error($mysqlConnect);
+        echo "Error: " . mysqli_error($con);
     }
 
 
     foreach($form2 as $row){
         $s_no = (int)$row['serialNo'];
-        $code = mysqli_real_escape_string($mysqlConnect, $row['code']);
-        $material = mysqli_real_escape_string($mysqlConnect, $row['material']);
-        $uom = mysqli_real_escape_string($mysqlConnect, $row['uom']);
+        $code = mysqli_real_escape_string($con, $row['code']);
+        $material = mysqli_real_escape_string($con, $row['material']);
+        $uom = mysqli_real_escape_string($con, $row['uom']);
         $sp_gr = (float)$row['spGr'];
         $opening_balance = (int)$row['openingBalance'];
         $receipts = (int)$row['receipts'];
-        $source = mysqli_real_escape_string($mysqlConnect, $row['source']);
+        $source = mysqli_real_escape_string($con, $row['source']);
         $total = (int)$row['total'];
         $transfers = (int)$row['transfers'];
         $physical_stock = (int)$row['physicalStock'];
@@ -58,10 +58,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES 
                 ('$form1Idhere', '$s_no', '$code', '$material', '$uom', '$sp_gr', '$opening_balance', '$receipts', '$source', '$total', '$transfers', '$physical_stock', '$wip', '$closing_balance', '$net_consumption', '$actual_cc', '$std_cc', '$std_inputs', '$per_batch_consumption')";
 
-        if (mysqli_query($mysqlConnect, $sql2)) {
+        if (mysqli_query($con, $sql2)) {
             echo "✅ Form 2 row (S.NO: $s_no) inserted successfully!<br>";
         } else {
-            echo "❌ Error inserting Form 2 (S.NO: $s_no): " . mysqli_error($mysqlConnect) . "<br>";
+            echo "❌ Error inserting Form 2 (S.NO: $s_no): " . mysqli_error($con) . "<br>";
         }
     }
 } else {
