@@ -1,5 +1,5 @@
 <?php
-include '../db_config.php';
+include __DIR__ . '/../db_config.php';
 
 //queries
 // Units
@@ -14,14 +14,14 @@ function unitsshow($con, $unit_id)
     }
 }
 
-function checkboxes($con,$code, $user_id = 0)
+function checkboxes($con, $code, $user_id = 0)
 {
-    if($code == '001'){
+    if ($code == '001') {
         $columnName = "unitId";
-        $tableName = "productdata";
-    }else{
+        $tableName  = "productdata";
+    } else {
         $columnName = "units";
-        $tableName = "usersdata";
+        $tableName  = "usersdata";
     }
 
     // Fetch all available units
@@ -160,17 +160,16 @@ function uomsshow($con, $uom_id)
 
 function uomcheckboxes($con, $uom_id = 0)
 {
-    $uom_query = mysqli_query($con, "SELECT id, name FROM uom");
+    $uom_query     = mysqli_query($con, "SELECT id, name FROM uom");
     $selected_uoms = [];
     if ($uom_id > 0) {
         $_query = mysqli_query($con, "SELECT uomId FROM productdata WHERE id = '$uom_id'");
         if ($_query) {
-            $row = mysqli_fetch_assoc($_query);
+            $row           = mysqli_fetch_assoc($_query);
             $selected_uoms = explode(',', $row['uomId']); // Convert CSV string to array
         }
     }
 
-    
     // Display checkboxes
     if ($uom_query && mysqli_num_rows($uom_query) > 0) {
         while ($row = mysqli_fetch_assoc($uom_query)) {
@@ -220,7 +219,7 @@ function uomsList($con)
 
 }
 
-function uomInsert($con, $unit_name,$uom_value, $created_by)
+function uomInsert($con, $unit_name, $uom_value, $created_by)
 {
     $unit_name = mysqli_real_escape_string($con, trim($unit_name));
 
@@ -288,7 +287,7 @@ function stagesshow($con, $unit_id)
 
 function stagescheckboxes($con, $uom_id = 0)
 {
-    $stages_query = mysqli_query($con, "SELECT id, name FROM stages");
+    $stages_query    = mysqli_query($con, "SELECT id, name FROM stages");
     $selected_stages = [];
     if ($uom_id > 0) {
         $user_stages_query = mysqli_query($con, "SELECT stageId FROM productdata WHERE id = '$uom_id'");
@@ -316,15 +315,13 @@ function stagescheckboxes($con, $uom_id = 0)
         echo "<p class='text-center'>No stages found</p>";
     }
 
-
-
     // $stagessql = mysqli_query($con, "SELECT id, name FROM `stages`");
     // if ($stagessql && mysqli_num_rows($stagessql) > 0) {
     //     while ($row = mysqli_fetch_assoc($stagessql)) {
-            // echo '<div class="custom-control custom-checkbox custom-checkbox-color custom-control-inline">
-            //                 <input type="checkbox" class="custom-control-input" name="stages[]" value="' . htmlspecialchars($row['id']) . '" id="customCheck-1' . htmlspecialchars($row['id']) . '">
-            //                 <label class="custom-control-label" for="customCheck-1' . htmlspecialchars($row['id']) . '">' . htmlspecialchars($row['name']) . '</label>
-            //             </div>';
+    // echo '<div class="custom-control custom-checkbox custom-checkbox-color custom-control-inline">
+    //                 <input type="checkbox" class="custom-control-input" name="stages[]" value="' . htmlspecialchars($row['id']) . '" id="customCheck-1' . htmlspecialchars($row['id']) . '">
+    //                 <label class="custom-control-label" for="customCheck-1' . htmlspecialchars($row['id']) . '">' . htmlspecialchars($row['name']) . '</label>
+    //             </div>';
 
     //     }
     // } else {
@@ -429,7 +426,7 @@ function blocksshow($con, $unit_id)
 
 function blockscheckboxes($con, $uom_id = 0)
 {
-    $blocks_query = mysqli_query($con, "SELECT id, name FROM blocks");
+    $blocks_query    = mysqli_query($con, "SELECT id, name FROM blocks");
     $selected_blocks = [];
     if ($uom_id > 0) {
         $user_blocks_query = mysqli_query($con, "SELECT blockId FROM productdata WHERE id = '$uom_id'");
@@ -456,7 +453,6 @@ function blockscheckboxes($con, $uom_id = 0)
     } else {
         echo "<p class='text-center'>No blocks found</p>";
     }
-
 
     // $blockssql = mysqli_query($con, "SELECT id, name FROM `blocks`");
     // if ($blockssql && mysqli_num_rows($blockssql) > 0) {
@@ -666,18 +662,17 @@ function usersDelete($con, $user_id)
     }
 }
 
-
 //products handling
 
 function productInsert($con, $product_code, $material_code, $material_name, $uom_ids, $blocks_ids, $stages_ids, $units_ids, $created_by)
 {
-    $product_code    = mysqli_real_escape_string($con, trim($product_code));
+    $product_code  = mysqli_real_escape_string($con, trim($product_code));
     $material_code = mysqli_real_escape_string($con, trim($material_code));
-    $material_name    = mysqli_real_escape_string($con, trim($material_name));
+    $material_name = mysqli_real_escape_string($con, trim($material_name));
     $uom_ids       = mysqli_real_escape_string($con, trim($uom_ids));
-    $blocks_ids       = mysqli_real_escape_string($con, trim($blocks_ids));
-    $stages_ids        = mysqli_real_escape_string($con, trim($stages_ids));
-    $units_ids       = mysqli_real_escape_string($con, trim($units_ids));
+    $blocks_ids    = mysqli_real_escape_string($con, trim($blocks_ids));
+    $stages_ids    = mysqli_real_escape_string($con, trim($stages_ids));
+    $units_ids     = mysqli_real_escape_string($con, trim($units_ids));
 
     $check_query  = "SELECT id FROM productdata WHERE productCode = '$product_code'";
     $check_result = mysqli_query($con, $check_query);
@@ -695,7 +690,7 @@ function productInsert($con, $product_code, $material_code, $material_name, $uom
         return mysqli_error($con);
     }
 }
-function productUpdate($con,$product_id, $product_code, $material_code, $material_name, $uom_ids, $blocks_ids, $stages_ids, $units_ids, $updated_by)
+function productUpdate($con, $product_id, $product_code, $material_code, $material_name, $uom_ids, $blocks_ids, $stages_ids, $units_ids, $updated_by)
 {
     $sql = "UPDATE productdata SET productCode = '$product_code', materialCode = '$material_code', material_Code_name = '$material_name', blockId = '$blocks_ids', stageId = '$stages_ids', unitId = '$units_ids', uomId = '$uom_ids', updated_at = NOW(), updated_by = $updated_by WHERE id = $product_id";
 
@@ -758,5 +753,120 @@ function productDelete($con, $product_id)
         return true; // Success
     } else {
         return mysqli_error($con); // Return error
+    }
+}
+
+//Get Data function
+function productsOnscreen($con, $selected_productCode = '')
+{
+    $query_result = mysqli_query($con, "SELECT * FROM productdata");
+
+    if ($query_result) {
+        echo '<option value="">--select One--</option>';
+        while ($row = mysqli_fetch_assoc($query_result)) {
+            $product_id  = htmlspecialchars($row['id']);
+            $productCode = htmlspecialchars($row['productCode']);
+
+            // Check if this role is the user's current role
+            $selected = ($selected_productCode == $productCode) ? 'selected' : '';
+
+            echo '<option value="' . $product_id . '" ' . $selected . '>' . $productCode . '</option>';
+        }
+    } else {
+        echo '<option disabled>Error fetching roles</option>';
+    }
+}
+
+function getstages($con, $productId)
+{
+    $query_result = mysqli_query($con, "SELECT stageId FROM productdata WHERE id = $productId");
+
+    if ($query_result) {
+        $row = mysqli_fetch_assoc($query_result);
+        if (! $row) {
+            return '<option disabled>No Stage Found</option>';
+        }
+
+        $stageIds     = explode(',', $row['stageId']); // Split the stage IDs by comma
+        $stageOptions = "";
+
+        foreach ($stageIds as $stage_id) {
+            $stage_id    = intval(trim($stage_id)); // Ensure it's a valid integer
+            $stage_query = mysqli_query($con, "SELECT name FROM stages WHERE id = $stage_id");
+            if ($stage_query) {
+                $stage_row = mysqli_fetch_assoc($stage_query);
+                if ($stage_row) {
+                    $stageName = htmlspecialchars($stage_row['name']);
+                    $stageOptions .= '<option value="' . $stage_id . '">' . $stageName . '</option>';
+                }
+            }
+        }
+
+        return empty($stageOptions) ? '<option disabled>No Stage Found</option>' : $stageOptions;
+    } else {
+        return '<option disabled>Error fetching Stages</option>';
+    }
+}
+function getblocks($con, $productId)
+{
+    $query_result = mysqli_query($con, "SELECT blockId FROM productdata WHERE id = $productId");
+
+    if ($query_result) {
+        $row = mysqli_fetch_assoc($query_result);
+        if (!$row || empty($row['blockId'])) {
+            return [];
+        }
+
+        $blockIds = explode(',', $row['blockId']); // Convert "1,2" to array ["1", "2"]
+        $blockIds = array_map('trim', $blockIds); // Trim spaces
+        $blockIdsString = implode("','", $blockIds); // Convert to SQL-friendly format
+
+        // Fetch block names for all block IDs
+        $block_query = mysqli_query($con, "SELECT id, name FROM blocks WHERE id IN ('$blockIdsString')");
+        $blocks = [];
+
+        while ($block_row = mysqli_fetch_assoc($block_query)) { 
+            $blocks[] = [
+                'id'   => $block_row['id'],
+                'name' => $block_row['name']
+            ];
+        }
+
+        return $blocks;
+    }
+
+    return [];
+}
+
+
+
+function getunits($con, $productId)
+{
+    $query_result = mysqli_query($con, "SELECT unitId FROM productdata WHERE id = $productId");
+
+    if ($query_result) {
+        $row = mysqli_fetch_assoc($query_result);
+        if (!$row) {
+            return '<option disabled>No Units Found</option>';
+        }
+
+        $unitIds     = explode(',', $row['unitId']); // Split the unit IDs by comma
+        $unitOptions = "";
+
+        foreach ($unitIds as $unit_id) {
+            $unit_id    = intval(trim($unit_id)); // Ensure it's a valid integer
+            $unit_query = mysqli_query($con, "SELECT name FROM units WHERE id = $unit_id");
+            if ($unit_query) {
+                $unit_row = mysqli_fetch_assoc($unit_query);
+                if ($unit_row) {
+                    $unitName = htmlspecialchars($unit_row['name']);
+                    $unitOptions .= '<option value="' . $unit_id . '">' . $unitName . '</option>';
+                }
+            }
+        }
+
+        return empty($unitOptions) ? '<option disabled>No Units Found</option>' : $unitOptions;
+    } else {
+        return '<option disabled>Error fetching Units</option>';
     }
 }

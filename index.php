@@ -1,3 +1,6 @@
+<?php
+include 'admin/functions.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,33 +30,26 @@
                 <div class="lg-12 col-sm-2 p-3">
                     <label class="label" for="pc">Product Code</label>
                     <select class="form-select mt-1" id="productCode" name="productCode" required>
-                        <option selected>Choose...</option>
-                        <option value="1">Product Code1</option>
-                        <option value="2">Product Code2</option>
+
+                        <?php productsOnscreen($con); ?>
                     </select>
                 </div>
                 <div class="lg-12 col-sm-2 p-3">
                     <label class="label" for="stage">Stage</label>
                     <select class="form-select mt-1" id="stage" name="stage" required>
-                        <option selected>Choose...</option>
-                        <option value="Stage 1">Stage 1</option>
-                        <option value="Stage 2">Stage 2</option>
+
                     </select>
                 </div>
                 <div class="lg-12 col-sm-2 p-3">
                     <label class="label" for="block">Block</label>
                     <select class="form-select mt-1" id="block" name="block" required>
-                        <option selected>Choose...</option>
-                        <option value="Block A">Block A</option>
-                        <option value="Block B">Block B</option>
+
                     </select>
                 </div>
                 <div class="lg-12 col-sm-2 p-3">
                     <label class="label" for="block">Units</label>
                     <select class="form-select mt-1" id="units" name="units" required>
-                        <option selected>Choose...</option>
-                        <option value="units A">units A</option>
-                        <option value="units B">units B</option>
+
                     </select>
                 </div>
             </div>
@@ -123,17 +119,46 @@
                     </thead>
                     <tbody id="form2Body"></tbody>
                 </table>
-               
+
             </div>
             <button type="button" class="btn btn-success" id="saveData">Save Data</button>
-            </div>
-            
         </div>
+
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#productCode').change(function() {
+                var productId = $(this).val();
+                $.ajax({
+            url: 'admin/getdata.php', // Path to the PHP script
+            type: 'POST',
+            data: { productId: productId },
+            success: function(response) {
+                console.log(response); // Handle response (display or process it)
+                $('#stage').html(response.stages);
+                $('#block').empty();
+                if (response.blocks.length > 0) {
+                    response.blocks.forEach(block => {
+                        $('#block').append(`<option value="${block.id}">${block.name}</option>`);
+                    });
+                } else {
+                    $('#block').append('<option disabled>No Blocks Found</option>');
+                }
+                $('#units').html(response.units); 
 
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX Error: " + error);
+            }
+        });
+
+            });
+        });
+    </script>
 </body>
 
 </html>
