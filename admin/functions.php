@@ -783,30 +783,31 @@ function getstages($con, $productId)
 
     if ($query_result) {
         $row = mysqli_fetch_assoc($query_result);
-        if (! $row) {
-            return '<option disabled>No Stage Found</option>';
+        if (!$row || empty($row['stageId'])) {
+            return [];
         }
 
-        $stageIds     = explode(',', $row['stageId']); // Split the stage IDs by comma
-        $stageOptions = "";
+        $stageIds = explode(',', $row['stageId']);
+        $stageIds = array_map('trim', $stageIds);
+        $stageIdsString = implode("','", $stageIds);
 
-        foreach ($stageIds as $stage_id) {
-            $stage_id    = intval(trim($stage_id)); // Ensure it's a valid integer
-            $stage_query = mysqli_query($con, "SELECT name FROM stages WHERE id = $stage_id");
-            if ($stage_query) {
-                $stage_row = mysqli_fetch_assoc($stage_query);
-                if ($stage_row) {
-                    $stageName = htmlspecialchars($stage_row['name']);
-                    $stageOptions .= '<option value="' . $stage_id . '">' . $stageName . '</option>';
-                }
-            }
+        $stage_query = mysqli_query($con, "SELECT id, name FROM stages WHERE id IN ('$stageIdsString')");
+        $stages = [];
+
+        while ($stage_row = mysqli_fetch_assoc($stage_query)) { 
+            $stages[] = [
+                'id'   => $stage_row['id'],
+                'name' => $stage_row['name']
+            ];
         }
 
-        return empty($stageOptions) ? '<option disabled>No Stage Found</option>' : $stageOptions;
-    } else {
-        return '<option disabled>Error fetching Stages</option>';
+        return $stages;
     }
+
+    return [];
 }
+
+
 function getblocks($con, $productId)
 {
     $query_result = mysqli_query($con, "SELECT blockId FROM productdata WHERE id = $productId");
@@ -839,34 +840,33 @@ function getblocks($con, $productId)
 }
 
 
-
 function getunits($con, $productId)
 {
     $query_result = mysqli_query($con, "SELECT unitId FROM productdata WHERE id = $productId");
 
     if ($query_result) {
         $row = mysqli_fetch_assoc($query_result);
-        if (!$row) {
-            return '<option disabled>No Units Found</option>';
+        if (!$row || empty($row['unitId'])) {
+            return [];
         }
 
-        $unitIds     = explode(',', $row['unitId']); // Split the unit IDs by comma
-        $unitOptions = "";
+        $unitIds = explode(',', $row['unitId']);
+        $unitIds = array_map('trim', $unitIds);
+        $unitIdsString = implode("','", $unitIds);
 
-        foreach ($unitIds as $unit_id) {
-            $unit_id    = intval(trim($unit_id)); // Ensure it's a valid integer
-            $unit_query = mysqli_query($con, "SELECT name FROM units WHERE id = $unit_id");
-            if ($unit_query) {
-                $unit_row = mysqli_fetch_assoc($unit_query);
-                if ($unit_row) {
-                    $unitName = htmlspecialchars($unit_row['name']);
-                    $unitOptions .= '<option value="' . $unit_id . '">' . $unitName . '</option>';
-                }
-            }
+        $unit_query = mysqli_query($con, "SELECT id, name FROM units WHERE id IN ('$unitIdsString')");
+        $units = [];
+
+        while ($unit_row = mysqli_fetch_assoc($unit_query)) { 
+            $units[] = [
+                'id'   => $unit_row['id'],
+                'name' => $unit_row['name']
+            ];
         }
 
-        return empty($unitOptions) ? '<option disabled>No Units Found</option>' : $unitOptions;
-    } else {
-        return '<option disabled>Error fetching Units</option>';
+        return $units;
     }
+
+    return [];
 }
+

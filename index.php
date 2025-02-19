@@ -139,7 +139,15 @@ include 'admin/functions.php';
             data: { productId: productId },
             success: function(response) {
                 console.log(response); // Handle response (display or process it)
-                $('#stage').html(response.stages);
+                $('#stage').empty();
+                if (response.stages.length > 0) {
+                    response.stages.forEach(stage => {
+                        $('#stage').append(`<option value="${stage.id}">${stage.name}</option>`);
+                    });
+                } else {
+                    $('#stage').append('<option disabled>No Stages Found</option>');
+                }
+
                 $('#block').empty();
                 if (response.blocks.length > 0) {
                     response.blocks.forEach(block => {
@@ -148,7 +156,15 @@ include 'admin/functions.php';
                 } else {
                     $('#block').append('<option disabled>No Blocks Found</option>');
                 }
-                $('#units').html(response.units); 
+
+                $('#units').empty();
+                if (response.units.length > 0) {
+                    response.units.forEach(unit => {
+                        $('#units').append(`<option value="${unit.id}">${unit.name}</option>`);
+                    });
+                } else {
+                    $('#units').append('<option disabled>No Units Found</option>');
+                } 
 
             },
             error: function(xhr, status, error) {
