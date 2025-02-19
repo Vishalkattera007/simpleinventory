@@ -1,6 +1,6 @@
 <?php
-include 'header.php';
-include 'side_nav.php';
+    include 'header.php';
+    include 'side_nav.php';
 ?>
 <!-- Page Content  -->
 <div id="content-page" class="content-page">
@@ -22,35 +22,37 @@ include 'side_nav.php';
                               <div class="input-group-prepend">
                                  <span class="input-group-text">@</span>
                               </div>
-                              <input type="text" class="form-control" name="username" value="<?= isset($_GET['id']) ? getUserData($con, $_GET['id'], 'username') : '' ?>" required>
+                              <input type="hidden" name="user_id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : ''; ?>">
+
+                              <input type="text" class="form-control" name="username" value="<?php echo isset($_GET['id']) ? getUserData($con, $_GET['id'], 'username') : ''?>" required>
                            </div>
                         </div>
 
                         <div class="col-md-4 mb-3">
                            <label for="employee_id">Employee ID</label>
-                           <input type="number" class="form-control" name="employee_id" value="<?= isset($_GET['id']) ? getUserData($con, $_GET['id'], 'employee_id') : '' ?>" required>
+                           <input type="number" class="form-control" name="employee_id" value="<?php echo isset($_GET['id']) ? getUserData($con, $_GET['id'], 'employeeId') : ''?>" required>
                         </div>
 
                         <div class="col-md-4 mb-3">
                            <label for="password">Password</label>
-                           <input type="password" class="form-control" name="password" <?= isset($_GET['id']) ? '' : 'required' ?>>
+                           <input type="password" class="form-control" name="password" value="<?php echo isset($_GET['id']) ? getUserData($con, $_GET['id'], 'employeeId') : ''?>" <?php echo isset($_GET['id']) ? '' : 'required'?>>
                         </div>
 
                         <div class="col-md-4 mb-3">
                            <label for="email">Email</label>
-                           <input type="email" class="form-control" name="email" value="<?= isset($_GET['id']) ? getUserData($con, $_GET['id'], 'email') : '' ?>" required>
+                           <input type="email" class="form-control" name="email" value="<?php echo isset($_GET['id']) ? getUserData($con, $_GET['id'], 'email') : ''?>" required>
                         </div>
 
                         <div class="col-md-4 mb-3">
                            <label for="phone">Mobile Number</label>
-                           <input type="tel" class="form-control" name="phone" value="<?= isset($_GET['id']) ? getUserData($con, $_GET['id'], 'phone') : '' ?>" required>
+                           <input type="tel" class="form-control" name="phone" value="<?php echo isset($_GET['id']) ? getUserData($con, $_GET['id'], 'mobile') : ''?>" required>
                         </div>
 
                         <div class="col-md-4 mb-3">
                            <label for="role">Select Role</label>
                            <select class="form-control" name="role">
                               <option selected disabled>--Select the role--</option>
-                              <?php roles($con, isset($_GET['id']) ? getUserData($con, $_GET['id'], 'role') : ''); ?>
+                              <?php roles($con, isset($_GET['id']) ? getUserData($con, $_GET['id'], 'roleId') : '');  ?>
                            </select>
                         </div>
                      </div>
@@ -62,13 +64,13 @@ include 'side_nav.php';
                            </div>
                         </div>
                         <div class="iq-card-body">
-                           <?php checkboxes($con, isset($_GET['id']) ? $_GET['id'] : 0); ?>
+                           <?php checkboxes($con,111, isset($_GET['id']) ? $_GET['id'] : 0); ?>
                         </div>
                      </div>
 
                      <div class="form-group">
-                        <button class="btn btn-primary" type="submit" name="<?= isset($_GET['id']) ? 'update_user' : 'add_user' ?>">
-                           <?= isset($_GET['id']) ? 'Update User' : 'Add User' ?>
+                        <button class="btn btn-primary" type="submit" name="<?php echo isset($_GET['id']) ? 'update_user' : 'add_user'?>">
+                           <?php echo isset($_GET['id']) ? 'Update User' : 'Add User'?>
                         </button>
                      </div>
                   </form>

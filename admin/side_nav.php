@@ -33,6 +33,7 @@
             <li><a href="blocks.php" class="iq-waves-effect" aria-expanded="false"><i class="ri-chat-check-line"></i><span>Blocks</span></a></li>
             <li><a href="stage.php" class="iq-waves-effect" aria-expanded="false"><i class="ri-chat-check-line"></i><span>Stages</span></a></li>
             <li><a href="units.php" class="iq-waves-effect" aria-expanded="false"><i class="ri-chat-check-line"></i><span>Units</span></a></li>
+            <li><a href="uom.php" class="iq-waves-effect" aria-expanded="false"><i class="ri-chat-check-line"></i><span>Uom</span></a></li>
          </ul>
       </nav>
       <div class="p-3"></div>

@@ -24,7 +24,7 @@
                     <label class="label" for="date">Date</label>
                     <input type="date" id="date" name="date" class="form-control mt-1 w-100" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
-                <div class="lg-12 col-sm-3 p-3">
+                <div class="lg-12 col-sm-2 p-3">
                     <label class="label" for="pc">Product Code</label>
                     <select class="form-select mt-1" id="productCode" name="productCode" required>
                         <option selected>Choose...</option>
@@ -32,7 +32,7 @@
                         <option value="2">Product Code2</option>
                     </select>
                 </div>
-                <div class="lg-12 col-sm-3 p-3">
+                <div class="lg-12 col-sm-2 p-3">
                     <label class="label" for="stage">Stage</label>
                     <select class="form-select mt-1" id="stage" name="stage" required>
                         <option selected>Choose...</option>
@@ -40,12 +40,20 @@
                         <option value="Stage 2">Stage 2</option>
                     </select>
                 </div>
-                <div class="lg-12 col-sm-3 p-3">
+                <div class="lg-12 col-sm-2 p-3">
                     <label class="label" for="block">Block</label>
                     <select class="form-select mt-1" id="block" name="block" required>
                         <option selected>Choose...</option>
                         <option value="Block A">Block A</option>
                         <option value="Block B">Block B</option>
+                    </select>
+                </div>
+                <div class="lg-12 col-sm-2 p-3">
+                    <label class="label" for="block">Units</label>
+                    <select class="form-select mt-1" id="units" name="units" required>
+                        <option selected>Choose...</option>
+                        <option value="units A">units A</option>
+                        <option value="units B">units B</option>
                     </select>
                 </div>
             </div>
