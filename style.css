@@ -44,3 +44,44 @@ thead th{
 .table-responsive {
     overflow-x: auto;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid black;
+    font-family: Arial, sans-serif;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #2b7a78; /* Header background */
+    color: white;
+    font-weight: bold;
+}
+
+td input {
+    width: 100%;
+    border: none;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #3aafa9; /* Alternate row color */
+}
+
+tr:nth-child(odd) {
+    background-color: #2b7a78;
+}
+
+td input:focus {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
