@@ -48,19 +48,19 @@ thead th{
 table {
     width: 100%;
     border-collapse: collapse;
-    border: 2px solid black;
+    border: 2px solid rgb(26, 26, 26);
     font-family: Arial, sans-serif;
 }
 
 th, td {
-    border: 1px solid black;
+    border: 1px solid rgb(12, 12, 12);
     padding: 8px;
     text-align: center;
 }
 
-th {
-    background-color: #2b7a78; /* Header background */
-    color: white;
+.table th {
+    background-color: #ffbf00; /* Header background */
+    color: rgb(31, 31, 31);
     font-weight: bold;
 }
 
@@ -73,11 +73,11 @@ td input {
 }
 
 tr:nth-child(even) {
-    background-color: #3aafa9; /* Alternate row color */
+    background-color: #f4f4f4; /* Alternate row color */
 }
 
 tr:nth-child(odd) {
-    background-color: #2b7a78;
+    background-color: #e7e7e7;
 }
 
 td input:focus {
