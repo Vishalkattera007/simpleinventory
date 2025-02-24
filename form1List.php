@@ -57,52 +57,7 @@
     <div class="projectName m-3">
         <h1 class="text-center">Symed Laboratories Limited- Unit-6</h1>
     </div>
-    <!-- <div class="container">
-        <div class="container-fluid bg-light p-3 rounded table-responsive">
-            <table class="table">
-                <tr>
-                    <th colspan="4" width="50%">Production Consumption-Coefficient Statement </th>
-                    <td colspan="6" width="50%"><?php echo $date?></td>
-                </tr>
-                <tr>
-                    <th rowspan="1" colspan="1" width="10%">Mfg. Block</th>
-                    <th rowspan="1" colspan="1" width="10%">Product / Stage</th>
-                    <td rowspan="1" colspan="1" width="15%"><?php echo $product_code?></td>
-                    <td rowspan="1" colspan="1" width="15%"><?php echo $stage?></td>
-                    <th width="10%" colspan="1">Opening Stock</th>
-                    <td width="10%" colspan="1"><?php echo $opening_stock?></td>
-                    <th width="10%" colspan="1">Closing Stock</th>
-                    <th width="5%" colspan="1">STD Yield</th>
-                    <td width="5%" colspan="1"><?php echo $std_yield?></td>
-                </tr>
-                <tr>
-                    <th colspan="1" width="10%">Block-A</th>
-                    <th colspan="1" width="10%">Completed batches</th>
-                    <td colspan="1" width="10%"><?php echo $completed_batches?></td>
-                    <td colspan="1" width="10%"></td>
-                    <th colspan="1" width="10%">Total Production</th>
-                    <td colspan="1" width="10%"><?php echo $total_production?></td>
-                    <th colspan="1" width="10%"><?php echo $closing_stock?></th>
-                    <th colspan="1" width="10%">Target Yield</th>
-                    <td colspan="1" width="10%"><?php echo $target_yield?></td>
-                </tr>
-                <tr>
-                    <td colspan="1" width="10%"></td>
-                    <th colspan="1" width="10%">WIP Batches</th>
-                    <td colspan="1" width="10%"><?php echo $wip_batches?></td>
-                    <td colspan="1" width="10%"></td>
-                    <th colspan="1" width="10%">Total Dispatches/Consumption</th>
-                    <td colspan="1" width="10%"><?php echo $total_dispatches?></td>
-                    <td colspan="1" width="10%"></td>
-                    <th colspan="1" width="10%">Actual Yield</th>
-                    <td colspan="1" width="10%"><?php echo $actual_yield?></td>
-                </tr>
-                <tr>
-                <th colspan="19"></th>
-                </tr>
-            </table>
-        </div>
-    </div> -->
+    
     <div class="container">
         <div class="container-fluid bg-light p-3 rounded">
         <table class="table">
